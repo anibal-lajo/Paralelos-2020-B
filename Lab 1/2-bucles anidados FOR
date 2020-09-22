@@ -66,14 +66,136 @@ void problema1()
     cout << "Execution Time loop 2: " << time2 << endl;
 }
 
+void problema2()
+{
 
+
+    // Inicializamos reloj para medir
+    //unsigned t0, t1, t2, t3;
+
+    /*
+    En este caso, inicializaremos las matrices con tamaños random
+    asi veremos el rendimiento de 2 o 3 for con distintos tamaños de matriz
+    */
+    int cont = 0;
+    do
+    {
+        //tamano random para las matrices
+
+        int K,M,N;
+        K = rand() % 100;
+        M = rand() % 100;
+        N = 1;
+
+
+        int A[K][M];
+        int x[M][N];
+        int y[K][N];
+
+
+        //Llena las matrices con datos random
+        for (int i = 0; i < K; i++)
+        {
+            for (int j = 0; j < M; j++)
+            {
+                A[i][j] = rand() % 100;
+            }
+        }
+
+        for (int i = 0; i < M; i++)
+        {
+            for (int j = 0; j < N; j++)
+            {
+                x[i][j] = rand() % 100;
+            }
+        }
+
+
+        for(int i=0; i<K; i++)
+        {
+            for(int j=0; j<N; j++)
+            {
+                y[i][j] = 0;
+                for(int k=0; k<M; k++)
+                {
+                    y[i][j]+= A[i][k]*x[k][j];
+                }
+
+            }
+
+        }
+        cont++;
+    }while(cont<10);
+}
+
+
+void problema3()
+{
+
+    //iniciamos relojes
+    unsigned t0, t1;
+
+
+    //int n = rand() % 100;
+
+    int n = 100;
+
+    int A[n][n];
+    int x[n][n];
+    int y[n][n];//respuesta
+    //Llena las matrices con datos random
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            A[i][j] = rand() % 100;
+        }
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            x[i][j] = rand() % 100;
+        }
+    }
+
+    //tamano del bloque
+    int Block_Tam = 10;
+    int cont=0;
+    double time = 0;
+
+    do{
+        //Block_Tam = rand() % n;
+        for ( int i=0;i<n;++i)
+            for ( int j=0;j<n;++j)
+                y[i][j] = 0;
+        t0= clock();
+        for ( int i1 = 0 ; i1 < n; i1 += Block_Tam)
+            for ( int j1 = 0 ; j1 < n; j1 += Block_Tam)
+                for ( int k1 = 0 ; k1 < n; k1 += Block_Tam)
+                    for ( int i = i1 ; i< i1 + Block_Tam && i<n ; i++)
+                        for ( int j=j1 ; j< j1 + Block_Tam && j<n ; j++)
+                            for ( int k=k1 ; k< k1+Block_Tam && k<n ; k++)
+                                y[i][j] += A[i][k] * x[k][j];
+        t1 = clock();
+        time += (double(t1-t0)/CLOCKS_PER_SEC);
+        cont++;
+    }while(cont<1000);
+
+    cout<<endl;
+    cout<<"Matriz de cuadrada de "<<Block_Tam<<" x "<<n<<" terminado con 6 bucles : ";
+    cout<<"Execution Time loop: " << time << endl;
+}
 
 int main()
 {
     for(int i=0;i<10;i++)
     {
-        cout<<"Prueba #"<<i<<": "<<endl;
-        problema1();
+        cout<<"Prueba #"<<i+1<<": "<<endl;
+        //problema1();
+        //problema2();
+        problema3();
         cout<<endl;
     }
 
